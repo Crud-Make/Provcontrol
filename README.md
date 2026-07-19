@@ -1,58 +1,271 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# ⛽ ProvControl
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Sistema de Gestão para Postos de Combustível**
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🎯 O Que é o ProvControl?
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+O **ProvControl** é um sistema web desenvolvido para **automatizar o controle de caixa e vendas de postos de combustível**. Ele substitui planilhas manuais por um sistema integrado que gerencia:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- 📊 **Vendas do Concentrador** (bombas)
+- 👨‍💼 **Vendas dos Frentistas**
+- 💳 **Pagamentos Eletrônicos** (cartões, Pix, apps)
+- 📅 **Fechamento Diário Automático**
+- 📈 **Relatórios Gerenciais**
+- 💰 **Cálculo de Participação de Lucro**
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🚀 Tecnologias Utilizadas
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Tecnologia | Versão | Descrição |
+|------------|--------|-----------|
+| **Laravel** | 13.x | Framework PHP |
+| **PHP** | 8.3 | Linguagem de programação |
+| **MySQL** | 8.0 | Banco de dados |
+| **Docker** | - | Containerização |
+| **Laravel Sail** | - | Ambiente de desenvolvimento |
+| **Tailwind CSS** | 3.x | Estilização |
+| **Alpine.js** | 3.x | Interatividade |
+| **PHPUnit** | - | Testes automatizados |
+| **GitHub Actions** | - | CI/CD |
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+---
 
-## Agentic Development
+## 📊 Funcionalidades
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### 1. Controle de Vendas do Concentrador
+- Registro de leituras diárias de cada bomba
+- Cálculo automático de litros vendidos
+- Cálculo automático do valor total
+- Histórico completo de leituras
+
+### 2. Controle de Vendas dos Frentistas
+- Registro de vendas por frentista
+- Múltiplos métodos de pagamento (Pix, Cartão, Dinheiro, Notas)
+- Acompanhamento individual de desempenho
+- Cálculo de participação de lucro (0,3% sobre litros vendidos)
+
+### 3. Gestão de Pagamentos Eletrônicos
+- Controle de vendas por cartão (crédito/débito)
+- Taxas automáticas (0,7% a 2,5%)
+- Controle de vendas via Pix
+- Integração com apps (Baratao, Providencia)
+
+### 4. Fechamento Diário
+- Cálculo automático do total do concentrador
+- Soma das vendas dos frentistas
+- Cálculo de diferença (falta/sobra)
+- Geração de resumo diário
+
+### 5. Relatórios e Métricas
+- Dashboard com indicadores principais
+- Participação de lucro dos frentistas
+- Resumo mensal
+- Metas de vendas
+
+---
+
+## 🏗️ Arquitetura
+
+O sistema segue o padrão **MVC (Model-View-Controller)** com camadas adicionais:
+
+📁 ProvControl/
+├── app/
+│ ├── Models/ # Representação das tabelas
+│ ├── Http/ # Controllers e Requests
+│ └── Services/ # Lógica de negócio
+├── database/
+│ ├── migrations/ # Estrutura do banco
+│ └── seeders/ # Dados iniciais
+├── tests/ # Testes automatizados
+└── resources/views/ # Telas do sistema
+
+
+
+### Padrões Utilizados
+- ✅ **Repository Pattern** - Separação da lógica de dados
+- ✅ **Service Layer** - Centralização da lógica de negócio
+- ✅ **Action Classes** - Operações únicas e específicas
+- ✅ **DTO (Data Transfer Object)** - Transferência de dados
+- ✅ **TDD** - Desenvolvimento orientado a testes
+
+---
+
+## 📦 Instalação
+
+### Pré-requisitos
+
+- Docker
+- PHP 8.3+
+- Composer
+- Node.js 18+
+
+### Passo a Passo
 
 ```bash
-composer require laravel/boost --dev
+# 1. Clonar o repositório
+git clone https://github.com/Crud-Make/Provcontrol.git
+cd Provcontrol
 
-php artisan boost:install
-```
+# 2. Subir os containers com Sail
+./vendor/bin/sail up -d
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+# 3. Instalar dependências
+./vendor/bin/sail composer install
 
-## Contributing
+# 4. Configurar o ambiente
+cp .env.example .env
+./vendor/bin/sail php artisan key:generate
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+# 5. Rodar as migrations
+./vendor/bin/sail php artisan migrate
 
-## Code of Conduct
+# 6. Rodar os testes
+./vendor/bin/sail php artisan test
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# 7. Acessar o sistema
+# http://localhost
 
-## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
+# Rodar todos os testes
+./vendor/bin/sail php artisan test
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# Rodar testes unitários
+./vendor/bin/sail php artisan test --testsuite=Unit
+
+# Rodar testes de funcionalidade
+./vendor/bin/sail php artisan test --testsuite=Feature
+
+
+🔄 CI/CD
+O projeto utiliza GitHub Actions para integração e entrega contínua.
+
+Fluxo Automatizado:
+text
+Push no GitHub
+     ↓
+Rodar Testes (PHPUnit)
+     ↓
+Análise de Código (Pint + Larastan)
+     ↓
+Build da Imagem Docker
+     ↓
+Deploy em Produção (SSH)
+Configuração
+Para habilitar o deploy, configure os seguintes secrets no GitHub:
+
+Secret	Descrição
+VPS_HOST	IP ou domínio do servidor
+VPS_USER	Usuário SSH
+SSH_PRIVATE_KEY	Chave privada SSH
+📊 Estrutura do Banco de Dados
+Tabela	Descrição
+produtos	Tipos de combustível
+bombas	Bombas do posto
+leituras_concentrador	Leituras diárias das bombas
+vendas_frentistas	Vendas registradas por frentista
+fechamentos_diarios	Resumo do fechamento diário
+Relacionamentos
+text
+produtos ───┬── bombas ───┬── leituras_concentrador
+            │            │
+            │            └── vendas_frentistas
+            │
+            └── fechamentos_diarios
+📝 Comandos Úteis
+bash
+# Subir os containers
+sail up -d
+
+# Parar os containers
+sail down
+
+# Ver containers rodando
+sail ps
+
+# Entrar no container PHP
+sail shell
+
+# Entrar no MySQL
+sail mysql
+
+# Rodar testes
+sail test
+
+# Criar migration
+sail php artisan make:migration nome
+
+# Rodar migrations
+sail php artisan migrate
+
+# Limpar cache
+sail php artisan cache:clear
+📂 Estrutura do Projeto
+text
+ProvControl/
+├── app/                          # Código principal
+│   ├── Http/                     # Controllers, Requests
+│   ├── Models/                   # Models do banco
+│   └── Services/                 # Lógica de negócio
+├── config/                       # Configurações
+├── database/
+│   ├── migrations/               # Estrutura das tabelas
+│   └── seeders/                  # Dados iniciais
+├── tests/
+│   ├── Unit/                     # Testes unitários
+│   └── Feature/                  # Testes de funcionalidade
+├── resources/views/              # Telas (Blade)
+├── routes/                       # Rotas
+├── .github/workflows/            # CI/CD
+├── Dockerfile.prod               # Build de produção
+├── docker-compose.prod.yml       # Docker em produção
+└── docker-compose.yml            # Docker em desenvolvimento
+🤝 Como Contribuir
+Fork o projeto
+
+Crie uma branch para sua feature (git checkout -b feature/nova)
+
+Commit suas mudanças (git commit -m 'feat: adiciona nova funcionalidade')
+
+Push para a branch (git push origin feature/nova)
+
+Abra um Pull Request
+
+📝 Licença
+Este projeto está sob a licença MIT.
+
+👨‍💻 Autores
+Crud-Make - Desenvolvedor
+
+📧 Contato
+GitHub: Crud-Make
+
+Projeto: ProvControl
+
+⭐ Agradecimentos
+Laravel Framework
+
+Comunidade Open Source
+
+Posto Jorro (pelo suporte e dados reais)
+
+Feito com ❤️ para automatizar e simplificar a gestão de postos de combustível.
+
+text
+
+---
+
+## 🚀 DEPOIS DE CRIAR, ENVIAR PARA O GITHUB
+
+```bash
+# 1. Adicionar o README
+git add README.md
+
+# 2. Commit
+git commit -m "docs: atualiza README com descrição completa do sistema"
+
+# 3. Enviar
+git push origin main
