@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -9,16 +11,17 @@ class FrentistaSeeder extends Seeder
 {
     public function run(): void
     {
-        $postoId = DB::table('postos')->first()->id;
+        $postoId = (int) DB::table('postos')->value('id');
 
         $frentistas = [
-            'Filip',
+            'Leandro',
             'Paulo',
-            'Barbra',
-            'Rosimeire',
+            'Gabi',
+            'Eliane',
             'Sinho',
             'Nayla',
             'Elyon',
+            'Elias',
         ];
 
         foreach ($frentistas as $nome) {

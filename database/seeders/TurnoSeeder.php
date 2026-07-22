@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -9,9 +11,10 @@ class TurnoSeeder extends Seeder
 {
     public function run(): void
     {
-        $postoId = DB::table('postos')->first()->id;
+        $postoId = (int) DB::table('postos')->value('id');
 
         $turnos = [
+            ['nome' => 'Dia', 'hora_inicio' => '06:00', 'hora_fim' => '23:59', 'ordem' => 0],
             ['nome' => 'Manhã', 'hora_inicio' => '06:00', 'hora_fim' => '12:00', 'ordem' => 1],
             ['nome' => 'Tarde', 'hora_inicio' => '12:00', 'hora_fim' => '18:00', 'ordem' => 2],
             ['nome' => 'Noite', 'hora_inicio' => '18:00', 'hora_fim' => '23:59', 'ordem' => 3],

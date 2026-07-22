@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -9,13 +11,13 @@ class CombustivelSeeder extends Seeder
 {
     public function run(): void
     {
-        $postoId = DB::table('postos')->first()->id;
+        $postoId = (int) DB::table('postos')->value('id');
 
         $combustiveis = [
-            ['nome' => 'Gasolina Comum', 'codigo' => 'GC', 'preco_atual' => 6.2800],
-            ['nome' => 'Gasolina Aditivada', 'codigo' => 'GA', 'preco_atual' => 6.2800],
-            ['nome' => 'Etanol', 'codigo' => 'ET', 'preco_atual' => 4.5800],
-            ['nome' => 'Diesel S10', 'codigo' => 'DS10', 'preco_atual' => 6.2800],
+            ['nome' => 'Gasolina Comum', 'codigo' => 'GC', 'preco_atual' => '6.2800', 'cor' => '#ef4444'],
+            ['nome' => 'Gasolina Aditivada', 'codigo' => 'GA', 'preco_atual' => '6.2800', 'cor' => '#3b82f6'],
+            ['nome' => 'Etanol', 'codigo' => 'ET', 'preco_atual' => '4.5800', 'cor' => '#22c55e'],
+            ['nome' => 'Diesel S10', 'codigo' => 'DS10', 'preco_atual' => '6.2800', 'cor' => '#eab308'],
         ];
 
         foreach ($combustiveis as $c) {
@@ -23,6 +25,7 @@ class CombustivelSeeder extends Seeder
                 'posto_id' => $postoId,
                 'nome' => $c['nome'],
                 'codigo' => $c['codigo'],
+                'cor' => $c['cor'],
                 'preco_atual' => $c['preco_atual'],
                 'ativo' => true,
                 'created_at' => now(),

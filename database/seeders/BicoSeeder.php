@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -9,7 +11,7 @@ class BicoSeeder extends Seeder
 {
     public function run(): void
     {
-        $postoId = DB::table('postos')->first()->id;
+        $postoId = (int) DB::table('postos')->value('id');
         $bombas = DB::table('bombas')->where('posto_id', $postoId)->get();
         $combustiveis = DB::table('combustiveis')->where('posto_id', $postoId)->get();
 
@@ -30,7 +32,7 @@ class BicoSeeder extends Seeder
 
         foreach ($bicos as $b) {
             $bomba = $bombas->where('nome', $b['bomba'])->first();
-            
+
             DB::table('bicos')->insert([
                 'posto_id' => $postoId,
                 'bomba_id' => $bomba->id,

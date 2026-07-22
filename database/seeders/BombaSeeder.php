@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -9,7 +11,7 @@ class BombaSeeder extends Seeder
 {
     public function run(): void
     {
-        $postoId = DB::table('postos')->first()->id;
+        $postoId = (int) DB::table('postos')->value('id');
 
         $bombas = [
             ['nome' => 'BOMBA 01', 'localizacao' => 'Esquerda'],

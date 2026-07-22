@@ -17,7 +17,7 @@ return new class extends Migration
             $table->boolean('ativo')->default(true);
             $table->date('ultima_afericao_em')->nullable();
             $table->timestamps();
-            
+
             $table->unique(['bomba_id', 'numero']);
         });
     }

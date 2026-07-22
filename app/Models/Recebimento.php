@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -10,8 +12,7 @@ class Recebimento extends Model
     protected $fillable = [
         'fechamento_id',
         'forma_pagamento_id',
-        'maquininha_id',
-        'valor'
+        'valor',
     ];
 
     protected $casts = [
@@ -26,10 +27,5 @@ class Recebimento extends Model
     public function formaPagamento(): BelongsTo
     {
         return $this->belongsTo(FormaPagamento::class);
-    }
-
-    public function maquininha(): BelongsTo
-    {
-        return $this->belongsTo(Maquininha::class);
     }
 }
