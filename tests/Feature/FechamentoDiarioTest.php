@@ -1,20 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class FechamentoDiarioTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
-    public function test_example(): void
+    public function test_tela_de_login_esta_disponivel_para_operacao_diaria(): void
     {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
+        $this->get(route('login'))
+            ->assertOk()
+            ->assertSee('ProvControl');
     }
 }
