@@ -1,19 +1,25 @@
-/<?php
+<?php
+
+declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Posto extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'nome',
         'cnpj',
         'endereco',
         'cidade',
         'uf',
-        'ativo'
+        'ativo',
     ];
 
     protected $casts = [
@@ -43,5 +49,12 @@ class Posto extends Model
     public function fechamentos(): HasMany
     {
         return $this->hasMany(Fechamento::class);
+    }
+
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class)
+            ->withPivot('role')
+            ->withTimestamps();
     }
 }
