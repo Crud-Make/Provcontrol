@@ -2,8 +2,74 @@
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
+@source '../views/**/*.blade.php';
 
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+[x-cloak] {
+    display: none !important;
+}
+
+body {
+    background: #0b1220;
+    color: #e2e8f0;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    display: none;
+}
+
+input[type='number'] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+.input-edit {
+    background: #0f172a;
+    border: 1px solid #475569;
+    color: #f1f5f9;
+    border-radius: 0.375rem;
+    padding: 0.25rem 0.5rem;
+    text-align: right;
+    width: 7.5rem;
+    font-size: 0.875rem;
+}
+
+.input-edit:focus {
+    outline: none;
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25);
+}
+
+.input-edit-sm {
+    width: 5.5rem;
+}
+
+.money-field {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.money-prefix {
+    color: #94a3b8;
+    font-size: 0.75rem;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.money-field .input-edit {
+    width: 6.5rem;
+}
+
+.money-field .input-edit-sm {
+    width: 5rem;
 }

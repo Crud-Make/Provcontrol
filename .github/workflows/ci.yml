@@ -1,121 +1,85 @@
-name: CI/CD - ProvControl
+name: ProvControl CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main ]
+    branches: [main, develop]
 
 jobs:
-  # ============================================
-  # JOB 1: TESTES
-  # ============================================
-  tests:
-    name: 🧪 Tests
+  quality:
+    name: Tests, style and frontend build
     runs-on: ubuntu-latest
-    
+
     services:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: rootpassword
+          MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: testing
-          MYSQL_USER: testuser
-          MYSQL_PASSWORD: testpassword
+          MYSQL_USER: provcontrol
+          MYSQL_PASSWORD: secret
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    env:
+      APP_ENV: testing
+      DB_CONNECTION: mysql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE: testing
+      DB_USERNAME: provcontrol
+      DB_PASSWORD: secret
+      CACHE_STORE: array
+      QUEUE_CONNECTION: sync
+      SESSION_DRIVER: array
 
     steps:
-      - name: 📥 Checkout
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: 🐘 Setup PHP
+      - name: Setup PHP 8.5
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql
+          php-version: '8.5'
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo_mysql
           coverage: none
+          tools: composer:v2
 
-      - name: 📝 Copy .env
-        run: cp .env.example .env
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
 
-      - name: 📦 Install Dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
+      - name: Validate Composer metadata
+        run: composer validate --strict
 
-      - name: 🔑 Generate Key
-        run: php artisan key:generate
+      - name: Install PHP dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
 
-      - name: 🗄️ Run Migrations
-        env:
-          DB_CONNECTION: mysql
-          DB_HOST: 127.0.0.1
-          DB_PORT: 3306
-          DB_DATABASE: testing
-          DB_USERNAME: testuser
-          DB_PASSWORD: testpassword
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Prepare application
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          php artisan config:clear
+
+      - name: Run migrations
         run: php artisan migrate --force
 
-      - name: ✅ Run Tests
-        env:
-          DB_CONNECTION: mysql
-          DB_HOST: 127.0.0.1
-          DB_PORT: 3306
-          DB_DATABASE: testing
-          DB_USERNAME: testuser
-          DB_PASSWORD: testpassword
-        run: php artisan test --verbose
+      - name: Run PHPUnit
+        run: php artisan test
 
-  # ============================================
-  # JOB 2: QUALIDADE DE CÓDIGO
-  # ============================================
-  quality:
-    name: 📊 Code Quality
-    runs-on: ubuntu-latest
-    needs: tests
-    
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: 🐘 Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.3'
-      
-      - name: 📦 Install Dependencies
-        run: composer install --prefer-dist --no-progress
-      
-      - name: 🎨 Check Code Style (Pint)
-        run: ./vendor/bin/pint --test || true
-      
-      - name: 🔍 Static Analysis (Larastan)
-        run: ./vendor/bin/phpstan analyse --memory-limit=2G || true
+      - name: Check PHP style
+        run: vendor/bin/pint --test
 
-  # ============================================
-  # JOB 3: DEPLOY (SÓ NA MAIN)
-  # ============================================
-  deploy:
-    name: 🚀 Deploy
-    runs-on: ubuntu-latest
-    needs: [tests, quality]
-    if: github.ref == 'refs/heads/main'
-    
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: 📤 Deploy via SSH
-        uses: appleboy/ssh-action@v1.2.0
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd /var/www/provcontrol
-            git pull origin main
-            docker-compose -f docker-compose.prod.yml down
-            docker-compose -f docker-compose.prod.yml up -d --build
-            docker exec provcontrol-app php artisan migrate --force
-            docker exec provcontrol-app php artisan config:cache
-            docker exec provcontrol-app php artisan route:cache
-            docker exec provcontrol-app php artisan view:cache
-            echo "✅ Deploy concluído!"
+      - name: Build frontend
+        run: npm run build
