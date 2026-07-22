@@ -1,4 +1,27 @@
 <laravel-boost-guidelines>
+
+=== provcontrol rules (read first) ===
+
+# ProvControl — Mandatory Before Backend Work
+
+This application follows the canonical **ARQUITETURA-LARAVEL** (pragmatic MVP, not DDD).
+
+**Before editing any PHP, Blade, routes, migrations, seeders, or tests in `ProvControl/`:**
+
+1. Read skill: `ProvControl/.cursor/skills/provcontrol-architecture/SKILL.md`
+2. Read mapped rules from: `ProvControl/.cursor/skills/laravel-best-practices/SKILL.md`
+3. Canonical docs: `Posto-Providencia/docs/documentos-novos/ARQUITETURA-LARAVEL.md`
+
+**Do NOT introduce in the MVP:** `app/Actions/`, `app/DTOs/`, repositories, ApiResponse wrappers, global posto scopes.
+
+**Fixed stack:** PHP 8.5, Laravel 13, MySQL 8 in every environment, PHPUnit 12, Blade + Alpine.js + Vite.
+
+**DO use:** native Laravel session authentication, Form Requests, Controller (property promotion), Model/Service, `currentPostoId()` with explicit posto scopes/filters, Policies, PHPUnit, Pint, laravel-boost MCP.
+
+**Do NOT use:** Global Scope or `PostoContext` for tenant isolation.
+
+**Canonical closing formula:** the attendants' reported total remains separate from the checked amount; electronic receipts are already part of the checked amount and must not be added again; `general difference = concentrator total - checked total`.
+
 === foundation rules ===
 
 # Laravel Boost Guidelines
@@ -22,7 +45,15 @@ This application is a Laravel application and its main Laravel ecosystems packag
 
 ## Skills Activation
 
-This project has domain-specific skills available in `**/skills/**`. You MUST activate the relevant skill whenever you work in that domain—don't wait until you're stuck.
+Domain skills live in `ProvControl/.cursor/skills/`. **You MUST read them before coding** — do not wait until stuck.
+
+| Priority | Skill | When |
+|----------|-------|------|
+| 1 | `provcontrol-architecture/SKILL.md` | **Always** before backend/Blade/routes/tests in ProvControl |
+| 2 | `laravel-best-practices/SKILL.md` | Map concerns (validation, eloquent, testing, blade-views) |
+| 3 | `mcp-development/SKILL.md` | Laravel Boost / MCP tools |
+
+Index: `ProvControl/.cursor/skills/README.md`
 
 ## Conventions
 
