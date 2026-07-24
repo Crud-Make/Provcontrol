@@ -17,6 +17,12 @@ export default function fechamentoForm(config = {}) {
             pagamentos: null,
         },
 
+        // Ao abrir a tela já carrega o preview (encerrantes/pagamentos) com a
+        // data e o turno padrão, para o operador cair direto na grade de digitação.
+        init() {
+            this.calcular();
+        },
+
         async calcular() {
             this.erro = null;
             this.sucesso = null;
@@ -68,12 +74,16 @@ export default function fechamentoForm(config = {}) {
                 const payload = await this.requestJson(this.routes.atualizar, {
                     data: this.data,
                     turno_id: Number(this.turnoId),
-                    leituras: this.resultado.leituras.map((l) => ({
-                        id: l.id,
-                        leitura_inicial: l.leitura_inicial,
-                        leitura_final: l.leitura_final,
-                        preco_litro: l.preco_litro,
-                    })),
+                    leituras: this.resultado.leituras
+                        // Só envia leituras com o encerrante final já preenchido;
+                        // as demais seguem como rascunho (campo Fechamento vazio).
+                        .filter((l) => l.leitura_final !== '' && l.leitura_final !== null)
+                        .map((l) => ({
+                            id: l.id,
+                            leitura_inicial: l.leitura_inicial,
+                            leitura_final: l.leitura_final,
+                            preco_litro: l.preco_litro,
+                        })),
                     frentistas: this.resultado.frentistas.map((f) => ({
                         id: f.id,
                         pix: f.pix,
@@ -133,7 +143,10 @@ export default function fechamentoForm(config = {}) {
                 leituras: (data.leituras || []).map((l) => ({
                     ...l,
                     leitura_inicial: Number(l.leitura_inicial),
-                    leitura_final: Number(l.leitura_final),
+                    // Encerrante final pode voltar vazio (rascunho): mantém em branco para digitar.
+                    leitura_final: l.leitura_final === '' || l.leitura_final === null
+                        ? ''
+                        : Number(l.leitura_final),
                     preco_litro: Number(l.preco_litro),
                     litros_vendidos: Number(l.litros_vendidos),
                     valor_total: Number(l.valor_total),

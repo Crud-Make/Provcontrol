@@ -30,6 +30,12 @@
     display: none !important;
 }
 
+/* Tema fixo escuro: faz o browser desenhar os controles nativos
+   (date picker, select, spinners) em escuro, casando com a UI. */
+:root {
+    color-scheme: dark;
+}
+
 body {
     background: #0b1220;
     color: #e2e8f0;

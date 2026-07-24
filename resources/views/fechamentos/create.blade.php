@@ -21,13 +21,17 @@
     <x-fechamento.cabecalho />
     <x-fechamento.filtros :turnos="$turnos" />
 
-    <div x-show="resultado" x-cloak x-transition class="space-y-6">
-        <x-fechamento.concentrador />
-        <x-fechamento.pagamentos />
-        <x-fechamento.frentistas />
-        <x-fechamento.resumo />
-        <x-fechamento.graficos />
-        <x-fechamento.confirmar />
-    </div>
+    {{-- x-if (não x-show): a grade só é montada quando `resultado` existe,
+         evitando que os x-for avaliem `resultado.leituras` com resultado null. --}}
+    <template x-if="resultado">
+        <div x-cloak x-transition class="space-y-6">
+            <x-fechamento.concentrador />
+            <x-fechamento.pagamentos />
+            <x-fechamento.frentistas />
+            <x-fechamento.resumo />
+            <x-fechamento.graficos />
+            <x-fechamento.confirmar />
+        </div>
+    </template>
 </div>
 @endsection
