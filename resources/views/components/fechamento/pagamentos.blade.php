@@ -1,7 +1,8 @@
 <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-6">
-    <h3 class="text-lg font-bold text-slate-100 mb-4">
+    <h3 class="flex items-center gap-2 text-lg font-bold text-slate-100 mb-4">
+        <span class="w-6 h-6 rounded-md bg-brand-500/20 text-brand-200 grid place-items-center text-xs font-bold shrink-0">2</span>
         Pagamentos Eletrônicos
-        <span class="text-xs font-normal text-slate-400 ml-2">campo valor (modelo recebimentos)</span>
+        <span class="text-xs font-normal text-slate-400 ml-1">· campo valor (modelo recebimentos)</span>
     </h3>
     <div class="overflow-x-auto">
         <table class="w-full text-sm">
@@ -27,7 +28,7 @@
                         <td class="px-3 py-2 text-center text-slate-400" x-text="pg.percentual + '%'"></td>
                         <td class="px-3 py-2 text-center text-slate-400"
                             x-text="pg.taxa != null ? (pg.taxa * 100).toFixed(1) + '%' : '-'"></td>
-                        <td class="px-3 py-2 text-right text-rose-400" x-text="formatMoney(pg.despesa)"></td>
+                        <td class="px-3 py-2 text-right text-brandred-300" x-text="formatMoney(pg.despesa)"></td>
                     </tr>
                 </template>
                 <tr class="border-t border-slate-600 font-bold bg-slate-900/60">
@@ -35,7 +36,7 @@
                     <td class="px-3 py-2 text-right text-emerald-400" x-text="formatMoney(resultado.total_pagamentos)"></td>
                     <td class="px-3 py-2 text-center text-slate-400">100%</td>
                     <td></td>
-                    <td class="px-3 py-2 text-right text-rose-400" x-text="formatMoney(resultado.total_taxas)"></td>
+                    <td class="px-3 py-2 text-right text-brandred-300" x-text="formatMoney(resultado.total_taxas)"></td>
                 </tr>
             </tbody>
         </table>

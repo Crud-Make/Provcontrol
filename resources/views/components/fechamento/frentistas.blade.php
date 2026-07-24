@@ -1,7 +1,8 @@
 <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-6">
-    <h3 class="text-lg font-bold text-slate-100 mb-4">
+    <h3 class="flex items-center gap-2 text-lg font-bold text-slate-100 mb-4">
+        <span class="w-6 h-6 rounded-md bg-brand-500/20 text-brand-200 grid place-items-center text-xs font-bold shrink-0">3</span>
         Venda Frentistas
-        <span class="text-xs font-normal text-slate-400 ml-2">salve para recalcular no servidor</span>
+        <span class="text-xs font-normal text-slate-400 ml-1">· informado (declaratório) × conferido</span>
     </h3>
     <div class="overflow-x-auto">
         <table class="w-full text-sm">
@@ -73,7 +74,7 @@
                             </label>
                         </td>
                         <td class="px-2 py-2 text-right font-bold"
-                            :class="Math.abs(f.diferenca) < 0.01 ? 'text-emerald-400' : 'text-rose-400'"
+                            :class="Math.abs(f.diferenca) < 0.01 ? 'text-emerald-400' : 'text-brandred-300'"
                             x-text="formatMoney(f.diferenca)"></td>
                         <td class="px-2 py-2 text-center text-slate-400" x-text="f.percentual + '%'"></td>
                     </tr>

@@ -7,6 +7,23 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Paleta da marca Posto Providência: azul-marinho · laranja · vermelho */
+    --color-brand-100: #d5ddf3;
+    --color-brand-200: #b0bde8;
+    --color-brand-300: #8298d8;
+    --color-brand-400: #5570c4;
+    --color-brand-500: #3850a8;
+    --color-brand-600: #1b2a78;
+    --color-brand-700: #141f5c;
+
+    --color-accent-300: #fbbf6b;
+    --color-accent-500: #f7941d;
+    --color-accent-600: #e07d0a;
+
+    --color-brandred-300: #f08a8f;
+    --color-brandred-500: #e11d26;
+    --color-brandred-600: #c4141c;
 }
 
 [x-cloak] {
@@ -43,8 +60,8 @@ input[type='number'] {
 
 .input-edit:focus {
     outline: none;
-    border-color: #38bdf8;
-    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25);
+    border-color: #5570c4;
+    box-shadow: 0 0 0 2px rgba(85, 112, 196, 0.3);
 }
 
 .input-edit-sm {

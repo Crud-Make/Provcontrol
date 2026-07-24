@@ -5,7 +5,7 @@
         <input type="hidden" name="turno_id" :value="turnoId">
 
         <button type="submit"
-                class="w-full bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 rounded-lg text-lg font-bold">
+                class="w-full bg-brand-500 hover:bg-brand-400 text-white px-6 py-3 rounded-lg text-lg font-bold shadow-sm">
             Confirmar Fechamento
         </button>
     </form>

@@ -9,15 +9,16 @@
     @stack('vite')
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen">
+    <div class="h-1 bg-gradient-to-r from-brand-500 via-accent-500 to-brandred-500"></div>
     <nav class="bg-slate-900 border-b border-slate-700 p-4">
         <div class="container mx-auto flex justify-between items-center">
-            <a href="{{ route('dashboard') }}" class="text-xl font-bold text-sky-400">ProvControl</a>
+            <a href="{{ route('dashboard') }}" class="text-xl font-bold text-brand-300">ProvControl</a>
             <div class="space-x-4 text-sm">
-                <a href="{{ route('fechamentos.index') }}" class="text-slate-300 hover:text-sky-400">Fechamentos</a>
-                <a href="{{ route('dashboard') }}" class="text-slate-300 hover:text-sky-400">Dashboard</a>
+                <a href="{{ route('fechamentos.index') }}" class="text-slate-300 hover:text-brand-300">Fechamentos</a>
+                <a href="{{ route('dashboard') }}" class="text-slate-300 hover:text-brand-300">Dashboard</a>
                 <form method="POST" action="{{ route('logout') }}" class="inline">
                     @csrf
-                    <button type="submit" class="text-slate-300 hover:text-rose-400">Sair</button>
+                    <button type="submit" class="text-slate-300 hover:text-brandred-300">Sair</button>
                 </form>
             </div>
         </div>

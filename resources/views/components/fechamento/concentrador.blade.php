@@ -1,7 +1,8 @@
 <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-6">
-    <h3 class="text-lg font-bold text-slate-100 mb-4">
+    <h3 class="flex items-center gap-2 text-lg font-bold text-slate-100 mb-4">
+        <span class="w-6 h-6 rounded-md bg-brand-500/20 text-brand-200 grid place-items-center text-xs font-bold shrink-0">1</span>
         Venda Concentrador
-        <span class="text-xs font-normal text-slate-400 ml-2">salve para recalcular no servidor</span>
+        <span class="text-xs font-normal text-slate-400 ml-1">· salve para recalcular no servidor</span>
     </h3>
     <div class="overflow-x-auto">
         <table class="w-full text-sm">
@@ -44,7 +45,7 @@
                 </template>
                 <tr class="border-t border-slate-600 font-bold bg-slate-900/60">
                     <td colspan="5" class="px-3 py-2 text-right text-slate-300">TOTAL</td>
-                    <td class="px-3 py-2 text-right text-sky-400" x-text="formatMoney(resultado.total_concentrador)"></td>
+                    <td class="px-3 py-2 text-right text-brand-300" x-text="formatMoney(resultado.total_concentrador)"></td>
                     <td class="px-3 py-2 text-center text-slate-400">100%</td>
                 </tr>
             </tbody>
