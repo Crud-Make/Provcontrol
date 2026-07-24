@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enums\LeituraStatus;
 use App\Models\FechamentoFrentista;
 use App\Models\Leitura;
 use App\Models\Recebimento;
@@ -26,13 +27,19 @@ final class FechamentoMapper
             $numero = str_pad((string) ($leitura->bico?->numero ?? 0), 2, '0', STR_PAD_LEFT);
             $valor = $this->decimal->toInteger($leitura->valor_total, 2);
 
+            // Leitura de rascunho (fechamento novo ainda não preenchido): o encerrante
+            // final volta vazio para o operador digitar; só o inicial vem preenchido.
+            $encerranteFinal = $leitura->status === LeituraStatus::Rascunho
+                ? ''
+                : $this->decimal->toDecimal($this->decimal->toInteger($leitura->leitura_final, 3), 3);
+
             return [
                 'id' => $leitura->id,
                 'produto' => "{$codigo} Bico {$numero}",
                 'codigo' => $codigo,
                 'cor' => $leitura->bico?->combustivel?->cor ?? '#94a3b8',
                 'leitura_inicial' => $this->decimal->toDecimal($this->decimal->toInteger($leitura->leitura_inicial, 3), 3),
-                'leitura_final' => $this->decimal->toDecimal($this->decimal->toInteger($leitura->leitura_final, 3), 3),
+                'leitura_final' => $encerranteFinal,
                 'litros_vendidos' => $this->decimal->toDecimal($this->decimal->toInteger($leitura->litros_vendidos, 3), 3),
                 'preco_litro' => $this->decimal->toDecimal($this->decimal->toInteger($leitura->preco_litro, 4), 4),
                 'valor_total' => $this->decimal->toDecimal($valor, 2),

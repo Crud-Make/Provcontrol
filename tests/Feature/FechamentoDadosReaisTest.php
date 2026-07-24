@@ -29,14 +29,14 @@ class FechamentoDadosReaisTest extends TestCase
         ]);
 
         $response->assertOk()
-            ->assertJsonPath('total_concentrador', '8203.87')
-            ->assertJsonPath('total_informado_frentistas', '8215.09')
-            ->assertJsonPath('total_frentistas', '8219.76')
-            ->assertJsonPath('diferenca', '-15.89')
-            ->assertJsonPath('total_pagamentos', '4859.00')
-            ->assertJsonPath('total_taxas', '43.11')
+            ->assertJsonPath('total_concentrador', '9430.34')
+            ->assertJsonPath('total_informado_frentistas', '9738.86')
+            ->assertJsonPath('total_frentistas', '9738.86')
+            ->assertJsonPath('diferenca', '-308.52')
+            ->assertJsonPath('total_pagamentos', '5702.94')
+            ->assertJsonPath('total_taxas', '80.98')
             ->assertJsonCount(6, 'leituras')
-            ->assertJsonCount(8, 'frentistas')
+            ->assertJsonCount(7, 'frentistas')
             ->assertJsonCount(5, 'pagamentos');
     }
 
@@ -48,14 +48,14 @@ class FechamentoDadosReaisTest extends TestCase
         $postoId = (int) Posto::query()->value('id');
         $resultado = app(FechamentoService::class)->calcularFechamento('2025-01-01', $turnoId, $postoId);
 
-        $this->assertSame('8203.87', $resultado['total_concentrador']);
-        $this->assertSame('8215.09', $resultado['total_informado_frentistas']);
-        $this->assertSame('8219.76', $resultado['total_frentistas']);
-        $this->assertSame('-15.89', $resultado['diferenca']);
+        $this->assertSame('9430.34', $resultado['total_concentrador']);
+        $this->assertSame('9738.86', $resultado['total_informado_frentistas']);
+        $this->assertSame('9738.86', $resultado['total_frentistas']);
+        $this->assertSame('-308.52', $resultado['diferenca']);
         $this->assertSame('GC Bico 01', $resultado['leituras'][0]['produto']);
-        $this->assertSame('Leandro', $resultado['frentistas'][0]['nome']);
-        $this->assertSame('2839.08', $resultado['frentistas'][0]['total']);
-        $this->assertSame('2839.08', $resultado['frentistas'][0]['valor_conferido']);
+        $this->assertSame('Filip', $resultado['frentistas'][0]['nome']);
+        $this->assertSame('2746.16', $resultado['frentistas'][0]['total']);
+        $this->assertSame('2746.16', $resultado['frentistas'][0]['valor_conferido']);
     }
 
     public function test_store_fecha_mesmo_com_divergencia(): void
@@ -73,9 +73,9 @@ class FechamentoDadosReaisTest extends TestCase
         $this->assertDatabaseHas('fechamentos', [
             'data' => '2025-01-01',
             'turno_id' => $turnoId,
-            'total_vendas_bombas' => '8203.87',
-            'total_recebido' => '8219.76',
-            'diferenca' => '-15.89',
+            'total_vendas_bombas' => '9430.34',
+            'total_recebido' => '9738.86',
+            'diferenca' => '-308.52',
             'status' => 'divergente',
         ]);
     }
@@ -121,7 +121,7 @@ class FechamentoDadosReaisTest extends TestCase
         ]);
 
         $response->assertOk();
-        $response->assertJsonPath('total_concentrador', '8263.25');
+        $response->assertJsonPath('total_concentrador', '9564.86');
         $this->assertArrayHasKey('valor', $response->json('pagamentos.0'));
         $this->assertArrayNotHasKey('inter_pog', $response->json('pagamentos.0'));
     }
@@ -130,36 +130,40 @@ class FechamentoDadosReaisTest extends TestCase
     {
         $this->seedAndAuthenticate();
 
+        // O Dia 01 está balanceado (informado == conferido para todos). A falta real
+        // da planilha está no Dia 02: o Filip informou 3443.02 mas o concentrador
+        // conferiu 3446.49 → falta de -3.47. Um round-trip preview→atualizar deve
+        // preservar essa falta, não achatar o conferido no informado.
         $turnoId = Turno::query()->where('nome', 'Dia')->value('id');
         $preview = $this->postJson(route('fechamentos.preview'), [
-            'data' => '2025-01-01',
+            'data' => '2025-01-02',
             'turno_id' => $turnoId,
         ])->json();
 
-        $gabi = collect($preview['frentistas'])->firstWhere('nome', 'Gabi');
+        $filip = collect($preview['frentistas'])->firstWhere('nome', 'Filip');
 
         $response = $this->postJson(route('fechamentos.atualizar'), [
-            'data' => '2025-01-01',
+            'data' => '2025-01-02',
             'turno_id' => $turnoId,
             'frentistas' => [[
-                'id' => $gabi['id'],
-                'pix' => $gabi['pix'],
-                'cartao_credito' => $gabi['cartao_credito'],
-                'cartao_debito' => $gabi['cartao_debito'],
-                'moeda' => $gabi['moeda'],
-                'notas' => $gabi['notas'],
-                'baratao' => $gabi['baratao'],
-                'produtos' => $gabi['produtos'],
-                'dinheiro' => $gabi['dinheiro'],
-                'valor_conferido' => $gabi['valor_conferido'],
+                'id' => $filip['id'],
+                'pix' => $filip['pix'],
+                'cartao_credito' => $filip['cartao_credito'],
+                'cartao_debito' => $filip['cartao_debito'],
+                'moeda' => $filip['moeda'],
+                'notas' => $filip['notas'],
+                'baratao' => $filip['baratao'],
+                'produtos' => $filip['produtos'],
+                'dinheiro' => $filip['dinheiro'],
+                'valor_conferido' => $filip['valor_conferido'],
             ]],
         ]);
 
         $response->assertOk()
-            ->assertJsonPath('total_informado_frentistas', '8215.09')
-            ->assertJsonPath('total_frentistas', '8219.76')
-            ->assertJsonPath('diferenca', '-15.89')
-            ->assertJsonPath('frentistas.2.diferenca', '-4.67');
+            ->assertJsonPath('total_informado_frentistas', '11882.36')
+            ->assertJsonPath('total_frentistas', '11885.83')
+            ->assertJsonPath('diferenca', '5.35')
+            ->assertJsonPath('frentistas.0.diferenca', '-3.47');
     }
 
     public function test_calculo_considera_apenas_leituras_do_turno_solicitado(): void
@@ -201,7 +205,9 @@ class FechamentoDadosReaisTest extends TestCase
             $postoId
         );
 
-        $this->assertSame('8203.87', $resultado['total_concentrador']);
+        // A leitura extra do turno Noite (R$ 63,80) não entra no total do Dia:
+        // 9430.34 é o concentrador do Dia 01, sem os 63,80 (senão seria 9494.14).
+        $this->assertSame('9430.34', $resultado['total_concentrador']);
         $this->assertCount(6, $resultado['leituras']);
     }
 

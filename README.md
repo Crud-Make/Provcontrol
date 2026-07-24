@@ -20,16 +20,17 @@ Sistema web para controle de caixa e vendas de postos de combustível.
 
 ## Arquitetura
 
-A fonte oficial é
-[`ARQUITETURA-LARAVEL.md`](../Posto-Providencia/docs/documentos-novos/ARQUITETURA-LARAVEL.md).
+A fonte oficial é a skill
+[`provcontrol-architecture`](.cursor/skills/provcontrol-architecture/SKILL.md), resumida em
+[`reference.md`](.cursor/skills/provcontrol-architecture/reference.md).
 
 - Fluxo: Form Request → Controller → Model/Service → Response.
 - Sem Actions, DTOs ou repositories no MVP.
 - Auth web por sessão nativa do Laravel.
 - Multi-posto por `currentPostoId()` e filtro/scope explícito.
 - Sem Global Scope ou `PostoContext`.
-- Skills: `.cursor/skills/provcontrol-architecture/SKILL.md`.
-- Regras Cursor: `../.cursor/rules/laravel-boost.mdc`.
+- Modelo de dados: `database/migrations/` e `app/Models/`.
+- Regras do agente: [`AGENTS.md`](AGENTS.md).
 
 ### Regras do fechamento
 
@@ -80,7 +81,7 @@ MVP atual.
 ## Contribuição
 
 1. Crie uma branch curta por mudança.
-2. Siga `ARQUITETURA-LARAVEL.md` e `AGENTS.md`.
+2. Siga a skill `provcontrol-architecture` e o `AGENTS.md`.
 3. Execute todos os gates de qualidade.
 4. Descreva impacto, testes e migrations no pull request.
 

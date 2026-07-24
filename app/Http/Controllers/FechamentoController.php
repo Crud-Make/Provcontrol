@@ -10,6 +10,7 @@ use App\Http\Requests\StoreFechamentoRequest;
 use App\Models\Fechamento;
 use App\Models\Turno;
 use App\Models\User;
+use App\Services\FechamentoPreparador;
 use App\Services\FechamentoService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -20,6 +21,7 @@ class FechamentoController extends Controller
 {
     public function __construct(
         private readonly FechamentoService $fechamentoService,
+        private readonly FechamentoPreparador $fechamentoPreparador,
     ) {}
 
     public function index(): View
@@ -59,6 +61,15 @@ class FechamentoController extends Controller
     {
         $validated = $request->validated();
         $postoId = currentPostoId();
+        /** @var User $user */
+        $user = $request->user();
+
+        $this->fechamentoPreparador->preparar(
+            $validated['data'],
+            (int) $validated['turno_id'],
+            $postoId,
+            $user
+        );
 
         $resultado = $this->fechamentoService->calcularFechamento(
             $validated['data'],
@@ -91,6 +102,13 @@ class FechamentoController extends Controller
         $postoId = currentPostoId();
         /** @var User $user */
         $user = $request->user();
+
+        $this->fechamentoPreparador->preparar(
+            $validated['data'],
+            (int) $validated['turno_id'],
+            $postoId,
+            $user
+        );
 
         $resultado = $this->fechamentoService->calcularFechamento(
             $validated['data'],

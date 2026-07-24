@@ -13,15 +13,15 @@ class FrentistaSeeder extends Seeder
     {
         $postoId = (int) DB::table('postos')->value('id');
 
+        // Nomes reais da planilha Posto Jorro, na ordem das colunas.
         $frentistas = [
-            'Leandro',
+            'Filip',
             'Paulo',
-            'Gabi',
-            'Eliane',
+            'Barbra',
+            'Rosimeire',
             'Sinho',
             'Nayla',
             'Elyon',
-            'Elias',
         ];
 
         foreach ($frentistas as $nome) {

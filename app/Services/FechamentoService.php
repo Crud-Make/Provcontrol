@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Enums\FechamentoStatus;
+use App\Enums\LeituraStatus;
 use App\Models\Fechamento;
 use App\Models\FechamentoFrentista;
 use App\Models\Leitura;
@@ -174,6 +175,7 @@ class FechamentoService
                     'leitura_inicial' => $item['leitura_inicial'],
                     'leitura_final' => $item['leitura_final'],
                     'preco_litro' => $item['preco_litro'],
+                    'status' => LeituraStatus::Confirmado->value,
                 ])->recalcular()->save();
             }
 

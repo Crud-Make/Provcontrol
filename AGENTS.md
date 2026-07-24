@@ -4,13 +4,14 @@
 
 # ProvControl — Mandatory Before Backend Work
 
-This application follows the canonical **ARQUITETURA-LARAVEL** (pragmatic MVP, not DDD).
+This application follows the canonical **provcontrol-architecture** skill (pragmatic MVP, not DDD).
 
 **Before editing any PHP, Blade, routes, migrations, seeders, or tests in `ProvControl/`:**
 
 1. Read skill: `ProvControl/.cursor/skills/provcontrol-architecture/SKILL.md`
 2. Read mapped rules from: `ProvControl/.cursor/skills/laravel-best-practices/SKILL.md`
-3. Canonical docs: `Posto-Providencia/docs/documentos-novos/ARQUITETURA-LARAVEL.md`
+3. Canonical architecture reference: `ProvControl/.cursor/skills/provcontrol-architecture/reference.md`
+4. Canonical data model: `ProvControl/database/migrations/` and `ProvControl/app/Models/`
 
 **Do NOT introduce in the MVP:** `app/Actions/`, `app/DTOs/`, repositories, ApiResponse wrappers, global posto scopes.
 

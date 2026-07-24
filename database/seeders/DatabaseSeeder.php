@@ -19,8 +19,7 @@ class DatabaseSeeder extends Seeder
             BicoSeeder::class,
             FrentistaSeeder::class,
             FormaPagamentoSeeder::class,
-            LeituraSeeder::class,
-            FechamentoDia01Seeder::class,
+            FechamentoPlanilhaSeeder::class,
         ]);
     }
 }
