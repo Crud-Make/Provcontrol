@@ -15,7 +15,11 @@ Use o MCP `laravel-boost`: `search-docs` antes de codar, `database-schema` antes
 
 ## Fonte de verdade do domínio: a planilha do Posto Jorro
 
-Toda regra de negócio vem de [database/data/Posto-Jorro-2026.xlsx](database/data/Posto-Jorro-2026.xlsx) — a planilha real que o posto usa. **Em dúvida sobre cálculo, nomenclatura ou estrutura, a planilha decide**, não a intuição.
+Toda regra de negócio vem de `database/data/Posto-Jorro-2026.xlsx` — a planilha real que o posto usa. **Em dúvida sobre cálculo, nomenclatura ou estrutura, a planilha decide**, não a intuição.
+
+> **Dado real nunca vai pro git** (gitignored desde 2026-07-29 — o repo é público no GitHub e o xlsx
+> estava commitado no histórico; histórico reescrito e limpo). O arquivo continua no disco em
+> `database/data/`, só não é mais versionado — nem se o repo virar privado depois.
 
 | Aba | Conteúdo | No sistema? |
 |---|---|---|
